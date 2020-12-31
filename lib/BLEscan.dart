@@ -18,7 +18,7 @@ class BLEPage extends State<BLE> {
   }
 
   void scanDevices() {
-    flutterBlue.startScan(timeout: Duration(seconds: 4));
+    flutterBlue.startScan(timeout: Duration(seconds: 7));
 
     flutterBlue.scanResults.listen((results) {
       for (ScanResult r in results) {
@@ -26,7 +26,13 @@ class BLEPage extends State<BLE> {
       }
     });
 
-    //flutterBlue.stopScan();
+    flutterBlue.scanResults.listen((results) {
+      for (ScanResult r in results) {
+        addDevice(r.device);
+      }
+    });
+
+    flutterBlue.stopScan();
   }
 
   ListView buildListView() {
@@ -44,8 +50,8 @@ class BLEPage extends State<BLE> {
               FlatButton(
                 color: Colors.blue,
                 child: Text('Connect', style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  flutterBlue.stopScan();
+                onPressed: () async {
+                  await device.connect();
                 },
               )
             ],
@@ -60,7 +66,7 @@ class BLEPage extends State<BLE> {
   }
 
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build(BuildContext ctxt) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Connect to Glasses"),
