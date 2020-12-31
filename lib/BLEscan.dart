@@ -7,6 +7,7 @@ class BLE extends StatefulWidget {
 }
 
 class BLEPage extends State<BLE> {
+  FlutterBlue flutterBlue = FlutterBlue.instance;
   final List<BluetoothDevice> devices = new List<BluetoothDevice>();
   void addDevice(final BluetoothDevice device) {
     if (!devices.contains(device)) {
@@ -17,7 +18,6 @@ class BLEPage extends State<BLE> {
   }
 
   void scanDevices() {
-    FlutterBlue flutterBlue = FlutterBlue.instance;
     flutterBlue.startScan(timeout: Duration(seconds: 4));
 
     flutterBlue.scanResults.listen((results) {
@@ -26,7 +26,7 @@ class BLEPage extends State<BLE> {
       }
     });
 
-    flutterBlue.stopScan();
+    //flutterBlue.stopScan();
   }
 
   ListView buildListView() {
@@ -44,7 +44,9 @@ class BLEPage extends State<BLE> {
               FlatButton(
                 color: Colors.blue,
                 child: Text('Connect', style: TextStyle(color: Colors.white)),
-                onPressed: () {},
+                onPressed: () {
+                  flutterBlue.stopScan();
+                },
               )
             ],
           )));
