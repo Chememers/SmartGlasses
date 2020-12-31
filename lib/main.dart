@@ -14,14 +14,14 @@ class Home extends StatelessWidget {
       appBar: new AppBar(
         title: new Text("Smart Glasses"),
       ),
-      body: new Checkbox(
-          value: false,
-          onChanged: (bool newValue) {
+      floatingActionButton: new FloatingActionButton(
+          onPressed: (){
             Navigator.push(
               ctxt,
               new MaterialPageRoute(builder: (ctxt) => new BLE()),
             );
-          }
+          },
+          child: Icon(Icons.add),
       )
     );
   }
