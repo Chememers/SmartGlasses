@@ -12,17 +12,50 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  void showDevices() {
+  final List<BluetoothDevice> devices = new List<BluetoothDevice>();
+  addDevice(final BluetoothDevice device) {
+    if (!devices.contains(device)) {
+      setState(() {
+        devices.add(device);
+      });
+    }
+  }
+
+  void scanDevices() {
     FlutterBlue flutterBlue = FlutterBlue.instance;
     flutterBlue.startScan(timeout: Duration(seconds: 4));
 
     var subscription = flutterBlue.scanResults.listen((results) {
       for (ScanResult r in results) {
-        print('${r.device.name} found! rssi: ${r.rssi}');
+        addDevice(r.device);
       }
     });
 
     flutterBlue.stopScan();
+  }
+
+  ListView buildListView() {
+    scanDevices();
+    List<Container> containers = new List<Container>();
+    for (BluetoothDevice device in devices) {
+      containers.add(Container(
+          height: 50,
+          child: Row(
+            children: <Widget>[
+              Column(children: [Text(device.name), Text(device.id.toString())],),
+              FlatButton(
+                color: Colors.blue,
+                child: Text('Connect', style: TextStyle(color: Colors.white)),
+                onPressed: () {},
+              )
+            ],
+          )));
+    }
+    return ListView(
+      children: <Widget>[
+        ...containers,
+      ],
+    );
   }
 
   @override
@@ -31,19 +64,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Smart Glasses"),
       ),
-      body: Container(
-          padding: EdgeInsets.all(20.0),
-          child: RaisedButton(
-              onPressed: () {
-                showDevices();
-              },
-              child: Text("Connect",
-                  style: TextStyle(
-                    fontFamily: 'IndieFlower',
-            )
-          )
-        )
-      ),
+      body: buildListView(),
     );
   }
 }
