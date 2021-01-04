@@ -89,7 +89,7 @@ void parseTime(String&& in){
   const char* curtime = in.c_str();
   const char* fmt = "%d %d %d %d %d %d";
   int hour, min, sec, day, month, year;
-  sscanf(curtime, fmt, hour, min, sec, day, month, year);
+  sscanf(curtime, fmt, &hour, &min, &sec, &day, &month, &year);
   setTime(hour, min, sec, day, month, year);
 }
 
