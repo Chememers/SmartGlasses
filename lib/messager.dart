@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:smart_glasses/main.dart';
 
@@ -34,9 +32,7 @@ class MessagerState extends State<Messager> {
             child: ElevatedButton(
               onPressed: () {
                 if (!(connection == null || !connection.isConnected)) {
-                  List<int> list = myController.text.codeUnits;
-                  Uint8List bytes = Uint8List.fromList(list);
-                  connection.output.add(bytes);
+                  sendString(myController.text);
                 }
               },
               child: Text('Submit'),
