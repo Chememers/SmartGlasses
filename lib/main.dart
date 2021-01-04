@@ -64,31 +64,45 @@ class MessagerState extends State<Messager> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Send text',
+      child: Column(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Send text',
+                ),
+                controller: myController,
               ),
-              controller: myController,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                if (!(connection == null || !connection.isConnected)) {
-                  List<int> list = myController.text.codeUnits;
-                  Uint8List bytes = Uint8List.fromList(list);
-                  connection.output.add(bytes);
-                }
-              },
-              child: Text('Submit'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (!(connection == null || !connection.isConnected)) {
+                    List<int> list = myController.text.codeUnits;
+                    Uint8List bytes = Uint8List.fromList(list);
+                    connection.output.add(bytes);
+                  }
+                },
+                child: Text('Submit'),
+              ),
             ),
+          ],
+        ),
+        Padding(
+          child: ElevatedButton(
+            onPressed: () {
+              if (!(connection == null || !connection.isConnected)) {
+                DateTime now = new DateTime.now();
+                List<int> dateList = $now.text.codeUnits;
+                Uint8List bytes2 = Uint8List.fromList(dateList);
+                connection.output.add(bytes2);
+              }
+            },
           ),
-        ],
+        ),
       ),
     );
   }
