@@ -55,7 +55,7 @@ void setup() {
   showText(text, 1);
 }
 
-void showText(String& text, double fontSize){
+void showText(String text, double fontSize){
   display.clearDisplay();
   display.setTextSize(fontSize);
   display.setTextColor(SSD1306_WHITE);
@@ -85,11 +85,20 @@ void showTime(){
   display.display();
 }
 
+void parseTime(String in){
+  
+}
+
 void loop() {
     showTime(); 
     if (Serial.available() > 0){
       String in = Serial.readString();
-      showText(in, 2);
-      delay(5000);
+      if (in.startsWith("setTime")){
+          Serial.println("ok");
+      }
+      else{
+        showText(in, 2);
+        delay(5000);        
+      }
     }
 }
