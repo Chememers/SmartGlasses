@@ -38,7 +38,7 @@ String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 void setup() {
   Serial.begin(9600);
   Serial.println("Connecting to Smart Glasses ...");
-  setTime(1,31,25,30,12,2020); //Will need to set the time manually for now
+  setTime(1,31,25,3,1,2021); //Will need to set the time manually for now
   //Serial.println(month());
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x64 OLED

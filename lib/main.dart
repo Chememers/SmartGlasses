@@ -1,11 +1,12 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:smart_glasses/messager.dart';
+
 String MACAddress = "00:18:E4:34:BE:8E"; //MAC Address of HC-06 Module
 BluetoothConnection connection;
+
 void main() => runApp(MaterialApp(
       //debugShowCheckedModeBanner: false,
       home: Home(),
@@ -29,7 +30,14 @@ class Home extends StatelessWidget {
       floatingActionButton: new FloatingActionButton(
           onPressed: () async {
             if (connection == null || !connection.isConnected) {
-              connection = await BluetoothConnection.toAddress(MACAddress);
+              try {
+                connection = await BluetoothConnection.toAddress(MACAddress);
+              } catch (e) {
+                Fluttertoast.showToast(
+                  msg: "Make sure you have enabled Bluetooth.",
+                  toastLength: Toast.LENGTH_SHORT,
+                );
+              }
               if (connection.isConnected) {
                 Fluttertoast.showToast(
                   msg: "Connected to Glasses",
@@ -46,71 +54,5 @@ class Home extends StatelessWidget {
           },
           child: Icon(Icons.bluetooth)),
     );
-  }
-}
-
-class Messager extends StatefulWidget {
-  @override
-  MessagerState createState() {
-    return MessagerState();
-  }
-}
-
-class MessagerState extends State<Messager> {
-  final _formKey = GlobalKey<FormState>();
-  final myController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Send text',
-                ),
-                controller: myController,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  if (!(connection == null || !connection.isConnected)) {
-                    List<int> list = myController.text.codeUnits;
-                    Uint8List bytes = Uint8List.fromList(list);
-                    connection.output.add(bytes);
-                  }
-                },
-                child: Text('Submit'),
-              ),
-            ),
-          ],
-        ),
-        Padding(
-          child: ElevatedButton(
-            onPressed: () {
-              if (!(connection == null || !connection.isConnected)) {
-                DateTime now = new DateTime.now();
-                List<int> dateList = $now.text.codeUnits;
-                Uint8List bytes2 = Uint8List.fromList(dateList);
-                connection.output.add(bytes2);
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
   }
 }
