@@ -85,8 +85,12 @@ void showTime(){
   display.display();
 }
 
-void parseTime(String in){
-  
+void parseTime(String&& in){
+  const char* curtime = in.c_str();
+  const char* fmt = "%d %d %d %d %d %d";
+  int hour, min, sec, day, month, year;
+  sscanf(curtime, fmt, hour, min, sec, day, month, year);
+  setTime(hour, min, sec, day, month, year);
 }
 
 void loop() {
@@ -94,6 +98,7 @@ void loop() {
     if (Serial.available() > 0){
       String in = Serial.readString();
       if (in.startsWith("setTime")){
+          parseTime(in.substring(in.indexOf(" ")));
           Serial.println("ok");
       }
       else{
