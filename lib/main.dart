@@ -5,6 +5,7 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:smart_glasses/messager.dart';
+import 'package:smart_glasses/settings.dart';
 
 String MACAddress = "00:18:E4:34:BE:8E"; //MAC Address of HC-06 Module
 BluetoothConnection connection;
@@ -38,7 +39,10 @@ class Home extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              // Open Settings page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Settings()),
+              );
             },
           )
         ]),
@@ -110,15 +114,18 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-        onPressed: onPressed,
-        color: Colors.green,
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Icon(icon, color: Colors.white),
-            Text(label, style: TextStyle(color: Colors.white)),
-          ],
-        ));
+    return FloatingActionButton.extended(
+      heroTag: null,
+      onPressed: onPressed,
+      label: Text(label),
+      icon: Icon(icon, color: Colors.white),
+      //color: Colors.green,
+      //padding: EdgeInsets.all(10),
+      // child: Column(
+      //   children: [
+      //     Icon(icon, color: Colors.white),
+      //     Text(label, style: TextStyle(color: Colors.white)),
+      //   ],
+    );
   }
 }
