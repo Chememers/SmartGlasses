@@ -22,26 +22,55 @@ void sendString(String msg) {
 }
 
 void main() => runApp(MaterialApp(
-      //debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
+      title: "Smart Glasses",
       home: Home(),
     ));
 
 class Home extends StatelessWidget {
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Smart Glasses"),
-      ),
-      body: Container(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: Column(
-          children: [
-            Messager(),
-          ],
+        appBar: new AppBar(title: new Text("Smart Glasses"), actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // Open Settings page
+            },
+          )
+        ]),
+        body: Container(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+          child: Column(
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Button("Message", Icons.message, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Messager()),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 10), // Spacing
+                  SizedBox(
+                    width: double.infinity,
+                    child: Button("Navigate", Icons.place, () {
+                      print("Yet to Implement");
+                    }),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
+        floatingActionButton: new FloatingActionButton(
+          heroTag: null,
           onPressed: () async {
             if (connection == null || !connection.isConnected) {
               try {
@@ -67,7 +96,29 @@ class Home extends StatelessWidget {
               );
             }
           },
-          child: Icon(Icons.bluetooth)),
-    );
+          child: Icon(Icons.bluetooth),
+        ));
+  }
+}
+
+class Button extends StatelessWidget {
+  final VoidCallback onPressed;
+  final IconData icon;
+  final String label;
+
+  Button(this.label, this.icon, this.onPressed);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+        onPressed: onPressed,
+        color: Colors.green,
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Icon(icon, color: Colors.white),
+            Text(label, style: TextStyle(color: Colors.white)),
+          ],
+        ));
   }
 }

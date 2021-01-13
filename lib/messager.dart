@@ -10,35 +10,41 @@ class Messager extends StatefulWidget {
 
 class MessagerState extends State<Messager> {
   final _formKey = GlobalKey<FormState>();
-  final myController = TextEditingController();
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Send text',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Send a Message"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Send text',
+                ),
+                controller: controller,
               ),
-              controller: myController,
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: FloatingActionButton.extended(
+                    onPressed: () {
+                      if (!(connection == null || !connection.isConnected)) {
+                        sendString(controller.text);
+                      }
+                    },
+                    label: Text('Send'),
+                    icon: Icon(Icons.send)),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                if (!(connection == null || !connection.isConnected)) {
-                  sendString(myController.text);
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -46,7 +52,7 @@ class MessagerState extends State<Messager> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    myController.dispose();
+    controller.dispose();
     super.dispose();
   }
 }
