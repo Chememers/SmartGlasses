@@ -72,6 +72,8 @@ class Home extends StatelessWidget {
                       print("Yet to Implement");
                     }),
                   ),
+                  SizedBox(height: 100),
+                  Image(image: AssetImage('assets/Old_glasses.png')),
                 ],
               ),
             ],
