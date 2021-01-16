@@ -32,20 +32,24 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(title: new Text("Smart Glasses"), actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Settings()),
-              );
-            },
-          )
-        ]),
+        appBar: new AppBar(
+            title: new Text("Smart Glasses"),
+            centerTitle: true,
+            backgroundColor: Colors.purple[900],
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings()),
+                  );
+                },
+              )
+            ]),
         body: Container(
           padding: EdgeInsets.only(left: 20, right: 20, top: 10),
           child: Column(
