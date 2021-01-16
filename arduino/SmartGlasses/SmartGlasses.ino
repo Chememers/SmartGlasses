@@ -87,10 +87,18 @@ void showTime(){
 
 void parseTime(String&& in){
   const char* curtime = in.c_str();
-  const char* fmt = "%d %d %d %d %d %d";
-  int hour, min, sec, day, month, year;
-  sscanf(curtime, fmt, &hour, &min, &sec, &day, &month, &year);
-  setTime(hour, min, sec, day, month, year);
+  auto ptr = curtime;
+  int t[6];
+  int n;
+  for (int& v: t) {
+      sscanf(ptr, "%d%n", &v, &n);
+      ptr += (n+1);
+  }
+  setTime(t[0], t[1], t[2], t[3], t[4], t[5]);
+  // const char* fmt = "%d %d %d %d %d %d";
+  // int hour, min, sec, day, month, year;
+  // sscanf(curtime, fmt, &hour, &min, &sec, &day, &month, &year);
+  // setTime(hour, min, sec, day, month, year);
 }
 
 void loop() {
