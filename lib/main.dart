@@ -6,9 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:smart_glasses/messager.dart';
 import 'package:smart_glasses/settings.dart';
+import 'package:smart_glasses/notifications.dart';
 
 String MACAddress = "00:18:E4:34:BE:8E"; //MAC Address of HC-06 Module
-BluetoothConnection connection;
+BluetoothConnection connection; //Represents the BT connection
 
 String getTime() {
   // Returns the command to set the time on the Arduino
@@ -17,20 +18,24 @@ String getTime() {
 }
 
 void sendString(String msg) {
+  // Function to send data in the form of String to the connected device
   List<int> list = msg.codeUnits;
   Uint8List bytes = Uint8List.fromList(list);
   connection.output.add(bytes);
 }
 
-void main() => runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Smart Glasses",
-      home: Home(),
-    ));
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: "Smart Glasses",
+    home: Home(),
+  ));
+}
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    listenForNotifs();
     return new Scaffold(
         backgroundColor: Colors.white,
         appBar: new AppBar(
@@ -126,13 +131,6 @@ class Button extends StatelessWidget {
       onPressed: onPressed,
       label: Text(label),
       icon: Icon(icon, color: Colors.white),
-      //color: Colors.green,
-      //padding: EdgeInsets.all(10),
-      // child: Column(
-      //   children: [
-      //     Icon(icon, color: Colors.white),
-      //     Text(label, style: TextStyle(color: Colors.white)),
-      //   ],
     );
   }
 }

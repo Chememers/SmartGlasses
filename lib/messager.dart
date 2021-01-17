@@ -17,6 +17,8 @@ class MessagerState extends State<Messager> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Send a Message"),
+        centerTitle: true,
+        backgroundColor: Colors.purple[900],
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
