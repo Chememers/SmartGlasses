@@ -32,6 +32,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        backgroundColor: Colors.white,
         appBar: new AppBar(
             title: new Text("Smart Glasses"),
             centerTitle: true,
