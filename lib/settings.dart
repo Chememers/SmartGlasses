@@ -19,7 +19,7 @@ class SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-          title: new Text("Smart Glasses"),
+          title: new Text("Settings"),
           centerTitle: true,
           backgroundColor: Colors.purple[900],
           actions: <Widget>[
