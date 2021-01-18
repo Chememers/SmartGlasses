@@ -56,6 +56,7 @@ void setup() {
 }
 
 void showText(String text, double fontSize){
+  if (text.length() >= 10) fontSize = 0.5;
   display.clearDisplay();
   display.setTextSize(fontSize);
   display.setTextColor(SSD1306_WHITE);
