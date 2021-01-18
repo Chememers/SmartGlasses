@@ -1,14 +1,14 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
 import 'package:smart_glasses/messager.dart';
 import 'package:smart_glasses/settings.dart';
 import 'package:smart_glasses/notifications.dart';
-import 'package:provider/provider.dart';
-import './theme.dart';
+import 'package:smart_glasses/theme.dart';
 
 String MACAddress = "00:18:E4:34:BE:8E"; //MAC Address of HC-06 Module
 BluetoothConnection connection; //Represents the BT connection

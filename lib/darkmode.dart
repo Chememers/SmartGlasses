@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_glasses/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ToggleDark extends StatefulWidget {
   @override
