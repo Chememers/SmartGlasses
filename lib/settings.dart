@@ -32,17 +32,6 @@ class SettingsState extends State<Settings> {
                 );
               },
             )
-            // Consumer<ThemeNotifier>(
-            //   builder: (context, notifier, child) => SwitchListTile(
-            //     title: Text('Dark Mode'), //Icon(Icons.settings_display)
-            //     value: notifier.darkTheme,
-            //     onChanged: (val) {
-            //       setState(() {
-            //         notifier.toggleTheme();
-            //       });
-            //     },
-            //   ),
-            // ),
           ]),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

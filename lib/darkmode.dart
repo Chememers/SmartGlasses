@@ -8,8 +8,6 @@ class ToggleDark extends StatefulWidget {
 }
 
 class _ToggleDarkState extends State<ToggleDark> {
-  bool showSeconds = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
