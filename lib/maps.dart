@@ -1,16 +1,35 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-var url = "http://www.mapquestapi.com/directions/v2/route";
-var key = "ivvTktSW08yUuYd7TebZLeVB64ufAIZT"; // MapQuest API Key
-// String from = "1900 Prairie City Rd, Folsom, CA 95630";
-// String to = "1655 Iron Point Rd, Folsom, CA 95630";
+class MapView extends StatefulWidget {
+  @override
+  _MapViewState createState() => _MapViewState();
+}
 
-Future<Map<String, dynamic>> getDirections(String from, String to) async {
-  var url =
-      "http://www.mapquestapi.com/directions/v2/route?key=${key}&from=${from}&to=${to}";
-  final response = await http.get(url);
-  final Map<String, dynamic> data = json.decode(response.body);
-  //Do stuff with data
-  return data;
+class _MapViewState extends State<MapView> {
+  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
+  GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Navigate"),
+          centerTitle: true,
+          backgroundColor: Colors.purple[900],
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ));
+  }
 }

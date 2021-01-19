@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:smart_glasses/messager.dart';
 import 'package:smart_glasses/settings.dart';
+import 'package:smart_glasses/maps.dart';
 import 'package:smart_glasses/notifications.dart';
 import 'package:smart_glasses/theme.dart';
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      builder: (_) => ThemeNotifier(),
+      create: (_) => ThemeNotifier(),
       child: Consumer<ThemeNotifier>(
         builder: (context, ThemeNotifier notifier, child) {
           return MaterialApp(
@@ -90,7 +91,10 @@ class Home extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Button("Navigate", Icons.place, () {
-                      print("Yet to Implement");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapView()),
+                      );
                     }),
                   ),
                   SizedBox(height: 100),
