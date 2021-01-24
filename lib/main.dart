@@ -9,7 +9,7 @@ import 'package:smart_glasses/messager.dart';
 import 'package:smart_glasses/settings.dart';
 import 'package:smart_glasses/maps.dart';
 import 'package:smart_glasses/notifications.dart';
-import 'package:smart_glasses/theme.dart';
+import 'package:smart_glasses/themes/theme.dart';
 
 String MACAddress = "00:18:E4:34:BE:8E"; //MAC Address of HC-06 Module
 BluetoothConnection connection; //Represents the BT connection

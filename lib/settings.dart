@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:smart_glasses/darkmode.dart';
+import 'package:smart_glasses/themes/darkmode.dart';
 
 class Settings extends StatefulWidget {
   @override

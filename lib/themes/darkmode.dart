@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_glasses/theme.dart';
+import 'package:smart_glasses/themes/theme.dart';
 
 class ToggleDark extends StatefulWidget {
   @override
