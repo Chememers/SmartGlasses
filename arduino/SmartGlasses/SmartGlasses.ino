@@ -55,7 +55,7 @@ void setup() {
   showText(text, 1);
 }
 
-void showText(String text, double fontSize){
+void showText(const String& text, double fontSize){
   if (text.length() >= 10) fontSize = 0.5;
   display.clearDisplay();
   display.setTextSize(fontSize);
