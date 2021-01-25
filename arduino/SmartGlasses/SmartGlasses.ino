@@ -38,7 +38,7 @@ String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 void setup() {
   Serial.begin(9600);
   Serial.println("Connecting to Smart Glasses ...");
-  setTime(1,31,25,3,1,2021); //Will need to set the time manually for now
+  setTime(1,31,25,3,1,2021); //Setting the time to a random date for initialization.
   //Serial.println(month());
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x64 OLED
@@ -56,13 +56,14 @@ void setup() {
 }
 
 void showText(const String& text, double fontSize){
-  if (text.length() >= 10) fontSize = 0.5;
+  // if (text.length() >= 10) fontSize = 1;
   display.clearDisplay();
   display.setTextSize(fontSize);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0,0);
   display.println(text);
   display.display();
+  display.startscrollright(0x00, 0x07);
 }
 
 void showTime(){
@@ -96,10 +97,6 @@ void parseTime(String&& in){
       ptr += (n+1);
   }
   setTime(t[0], t[1], t[2], t[3], t[4], t[5]);
-  // const char* fmt = "%d %d %d %d %d %d";
-  // int hour, min, sec, day, month, year;
-  // sscanf(curtime, fmt, &hour, &min, &sec, &day, &month, &year);
-  // setTime(hour, min, sec, day, month, year);
 }
 
 void loop() {
@@ -108,7 +105,6 @@ void loop() {
       String in = Serial.readString();
       if (in.startsWith("setTime")){
           parseTime(in.substring(in.indexOf(" ")));
-          Serial.println("ok");
       }
       else{
         showText(in, 2);
