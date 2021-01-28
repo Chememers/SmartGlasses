@@ -1,10 +1,11 @@
 #include <SPI.h>
 #include <Wire.h>
-#include <TimeLib.h>
-#include <Adafruit_GFX.h>
+#include <TimeLib.h>           // Time control/manipulation
+#include <Adafruit_GFX.h>      // OLED display - text, animations, etc.
 #include <Adafruit_SSD1306.h>
 
-Adafruit_SSD1306 display = Adafruit_SSD1306(128, 32, &Wire);
+// CONSTANTS - Initializing the display object and days/months arrays. Dates/months will be retreieved later when time info is displayed.
+Adafruit_SSD1306 display = Adafruit_SSD1306(128, 64, &Wire);
 String days[] = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
 String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
@@ -39,12 +40,12 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Connecting to Smart Glasses ...");
   setTime(1,31,25,3,1,2021); //Setting the time to a random date for initialization.
-  //Serial.println(month());
+
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x64 OLED
 
   Serial.println("OLED began");
-  display.display();
+  display.display();             // Method used to show all desired values/settings on OLED.
   delay(2000);
 
   // Clear the buffer.
@@ -55,6 +56,8 @@ void setup() {
   showText(text, 1);
 }
 
+
+// Display inputted text at given font size.
 void showText(const String& text, double fontSize){
   // if (text.length() >= 10) fontSize = 1;
   display.clearDisplay();
@@ -66,6 +69,7 @@ void showText(const String& text, double fontSize){
   display.startscrollright(0x00, 0x07);
 }
 
+// Sets up the format in which date/time should be displayed on OLED.
 void showTime(){
   display.clearDisplay();
   display.setTextSize(1);
@@ -87,11 +91,13 @@ void showTime(){
   display.display();
 }
 
+// Takes in a 'time String' as temporary object, parses it, and sets the indivdiual time parameters (in Timelib.h)
 void parseTime(String&& in){
   const char* curtime = in.c_str();
   auto ptr = curtime;
   int t[6];
   int n;
+  // Scans each independent integer in 'time String' and stores in array.
   for (int& v: t) {
       sscanf(ptr, "%d%n", &v, &n);
       ptr += (n+1);
@@ -100,11 +106,12 @@ void parseTime(String&& in){
 }
 
 void loop() {
-    showTime(); 
+    showTime();
+    showText("sample", 1); 
     if (Serial.available() > 0){
       String in = Serial.readString();
-      if (in.startsWith("setTime")){
-          parseTime(in.substring(in.indexOf(" ")));
+      if (in.startsWith("setTime")){     // a String message 'setTime $month $year...' is passed to Arduino from the app.
+          parseTime(in.substring(in.indexOf(" "))); // selects substring without 'setTime'
       }
       else{
         showText(in, 2);
