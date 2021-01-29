@@ -91,7 +91,8 @@ void showTime(){
   display.display();
 }
 
-// Takes in a 'time String' as temporary object, parses it, and sets the indivdiual time parameters (in Timelib.h)
+// Takes in a 'time String' as temporary object, parses it, and 
+//sets the indivdiual time vals (in Timelib.h)
 void parseTime(String&& in){
   const char* curtime = in.c_str();
   auto ptr = curtime;
