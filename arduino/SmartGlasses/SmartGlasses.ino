@@ -5,7 +5,7 @@
 #include <Adafruit_SSD1306.h>
 
 // CONSTANTS - Initializing the display object and days/months arrays. Dates/months will be retreieved later when time info is displayed.
-Adafruit_SSD1306 display = Adafruit_SSD1306(128, 64, &Wire);
+Adafruit_SSD1306 display = Adafruit_SSD1306(128, 32, &Wire);
 String days[] = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
 String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
@@ -38,22 +38,23 @@ String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 
 void setup() {
   Serial.begin(9600);
+  Wire.begin();
   Serial.println("Connecting to Smart Glasses ...");
   setTime(1,31,25,3,1,2021); //Setting the time to a random date for initialization.
 
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x64 OLED
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3D); // Address 0x3C for 128x64 OLED
 
   Serial.println("OLED began");
   display.display();             // Method used to show all desired values/settings on OLED.
   delay(2000);
 
   // Clear the buffer.
-  display.clearDisplay();
-  display.display();
+//  display.clearDisplay();
+//  display.display();
   String text = "Connected to glasses";
 
-  showText(text, 1);
+//  showText(text, 1);
 }
 
 
@@ -107,16 +108,22 @@ void parseTime(String&& in){
 }
 
 void loop() {
-    showTime();
-    showText("sample", 1); 
+    Serial.println("test");
+//    showTime();
+//    showText("sample", 1);
     if (Serial.available() > 0){
+      Serial.println("if");
       String in = Serial.readString();
+      Serial.println("input");
+      
       if (in.startsWith("setTime")){     // a String message 'setTime $month $year...' is passed to Arduino from the app.
           parseTime(in.substring(in.indexOf(" "))); // selects substring without 'setTime'
       }
       else{
-        showText(in, 2);
+        Serial.println("else");
+//        showText(in, 2);
         delay(5000);        
       }
+      Serial.println("end-if");
     }
 }
