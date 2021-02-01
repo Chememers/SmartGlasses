@@ -79,7 +79,7 @@ class _GuiMapState extends State<GuiMap> {
         options: new MapOptions(
           center: buildMap(),
           //new LatLng(40.71, -74),
-          zoom: 50.0,
+          zoom: 100.0,
         ),
         layers: [
           new TileLayerOptions(

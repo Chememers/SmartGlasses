@@ -67,7 +67,6 @@ void showText(const String& text, double fontSize){
   display.setCursor(0,0);
   display.println(text);
   display.display();
-  display.startscrollright(0x00, 0x07);
 }
 
 // Sets up the format in which date/time should be displayed on OLED.
@@ -105,6 +104,10 @@ void parseTime(String&& in){
       ptr += (n+1);
   }
   setTime(t[0], t[1], t[2], t[3], t[4], t[5]);
+  // const char* fmt = "%d %d %d %d %d %d";
+  // int hour, min, sec, day, month, year;
+  // sscanf(curtime, fmt, &hour, &min, &sec, &day, &month, &year);
+  // setTime(hour, min, sec, day, month, year);
 }
 
 void loop() {
