@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
+import 'package:smart_glasses/guimap.dart';
 
 var url = "http://www.mapquestapi.com/directions/v2/route";
 var key = "ivvTktSW08yUuYd7TebZLeVB64ufAIZT"; // MapQuest API Key
@@ -46,10 +47,23 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Navigate"),
-        centerTitle: true,
-        backgroundColor: Colors.purple[900],
-      ),
+          title: Text("Navigate"),
+          centerTitle: true,
+          backgroundColor: Colors.purple[900],
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.map_sharp,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GuiMap()),
+                );
+              },
+            )
+          ]),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Form(
