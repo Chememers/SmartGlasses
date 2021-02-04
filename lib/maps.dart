@@ -8,15 +8,16 @@ var key = "ivvTktSW08yUuYd7TebZLeVB64ufAIZT"; // MapQuest API Key
 List maneuvers = ['Start'];
 
 Future<Map<String, dynamic>> getDirs(String from, String to) async {
+  // Returns the Directions to the location "to" in JSON form
   var url =
       "http://www.mapquestapi.com/directions/v2/route?key=${key}&from=${from}&to=${to}";
   final response = await http.get(url);
   final Map<String, dynamic> data = json.decode(response.body);
-  //print(data['route']['legs'][0]['maneuvers']);
   return data;
 }
 
 ListView buildDirs(List<dynamic> dirs) {
+  // Iterates through the Directions JSON to build a ListView widget for display
   List<Widget> tiles = new List<Widget>();
   for (var entry in dirs) {
     tiles.add(
