@@ -1,16 +1,17 @@
-# smart_glasses
+<center>
+<h1>Smart Glasses</h1>
 
-A new Flutter project.
+![Assembly](https://user-images.githubusercontent.com/58019082/107179370-32e26300-698b-11eb-8219-6ef10dcb7896.png)
 
-## Getting Started
+An attachment to ordinary spectacles that displays custom information directly in front of the user's face in a timely manner.
 
-This project is a starting point for a Flutter application.
+</center>
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Messaging: Display of messages sent to the glasses from the phone via Bluetooth
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Notifications: Display of any incoming notifications (calls, messages, emails, etc.)
+
+- Navigation: Displaying the directions to a user-selected location (currently in progress)
+
