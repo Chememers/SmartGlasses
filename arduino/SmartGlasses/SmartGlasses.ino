@@ -1,10 +1,9 @@
 #include <SPI.h>
 #include <Wire.h>
-#include <TimeLib.h>           // Time control/manipulation
-#include <Adafruit_GFX.h>      // OLED display - text, animations, etc.
+#include <TimeLib.h>
+#include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-// CONSTANTS - Initializing the display object and days/months arrays. Dates/months will be retreieved later when time info is displayed.
 Adafruit_SSD1306 display = Adafruit_SSD1306(128, 32, &Wire);
 String days[] = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
 String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -38,38 +37,36 @@ String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 
 void setup() {
   Serial.begin(9600);
-  Wire.begin();
   Serial.println("Connecting to Smart Glasses ...");
   setTime(1,31,25,3,1,2021); //Setting the time to a random date for initialization.
-
+  //Serial.println(month());
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3D); // Address 0x3C for 128x64 OLED
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x64 OLED
 
   Serial.println("OLED began");
-  display.display();             // Method used to show all desired values/settings on OLED.
+  display.display();
   delay(2000);
 
   // Clear the buffer.
-//  display.clearDisplay();
-//  display.display();
+  display.clearDisplay();
+  display.display();
   String text = "Connected to glasses";
 
-//  showText(text, 1);
+  showText(text, 1);
 }
 
-
-// Display inputted text at given font size.
-void showText(const String& text, double fontSize){
+void showText(String text, double fontSize){
   // if (text.length() >= 10) fontSize = 1;
+  fontSize = 2;
   display.clearDisplay();
   display.setTextSize(fontSize);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0,0);
   display.println(text);
   display.display();
+  display.startscrollright(0x00, 0x07);
 }
 
-// Sets up the format in which date/time should be displayed on OLED.
 void showTime(){
   display.clearDisplay();
   display.setTextSize(1);
@@ -91,42 +88,33 @@ void showTime(){
   display.display();
 }
 
-// Takes in a 'time String' as temporary object, parses it, and 
-//sets the indivdiual time vals (in Timelib.h)
 void parseTime(String&& in){
   const char* curtime = in.c_str();
   auto ptr = curtime;
   int t[6];
   int n;
-  // Scans each independent integer in 'time String' and stores in array.
   for (int& v: t) {
       sscanf(ptr, "%d%n", &v, &n);
       ptr += (n+1);
   }
   setTime(t[0], t[1], t[2], t[3], t[4], t[5]);
-  // const char* fmt = "%d %d %d %d %d %d";
-  // int hour, min, sec, day, month, year;
-  // sscanf(curtime, fmt, &hour, &min, &sec, &day, &month, &year);
-  // setTime(hour, min, sec, day, month, year);
 }
 
 void loop() {
-    Serial.println("test");
-//    showTime();
-//    showText("sample", 1);
+    showTime(); 
     if (Serial.available() > 0){
-      Serial.println("if");
       String in = Serial.readString();
-      Serial.println("input");
-      
-      if (in.startsWith("setTime")){     // a String message 'setTime $month $year...' is passed to Arduino from the app.
-          parseTime(in.substring(in.indexOf(" "))); // selects substring without 'setTime'
+      Serial.println("Received " + in);
+      if (in.startsWith("setTime")){
+          parseTime(in.substring(in.indexOf(" ")));
+      }
+      else if (in.startsWith("Call")){
+        showText("Mom calling", 2);
+        delay(5000);  
       }
       else{
-        Serial.println("else");
-//        showText(in, 2);
+        showText(in, 2);
         delay(5000);        
       }
-      Serial.println("end-if");
     }
 }

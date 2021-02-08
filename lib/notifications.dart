@@ -20,12 +20,14 @@ void onData(NotificationEventV2 event) {
   print(jsonDatax);
 
   msg = event.packageMessage;
+  print(msg);
 
   try {
-    msg = msg + map[event.packageName];
+    msg = map[event.packageName] + jsonDatax['android.title'];
+    print(msg);
   } catch (e) {}
-  if (old != msg) {
-    sendString(msg);
+  if (old != msg && msg != "Incoming call") {
+    sendString("Call from Aditya"); //Memed for now,
   }
   old = msg;
 }
