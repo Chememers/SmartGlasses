@@ -3,6 +3,10 @@ import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocation/geolocation.dart';
 
+double dLat = 0.0;
+double dLong = 0.0;
+bool locGet = false;
+
 class GuiMap extends StatefulWidget {
   @override
   _GuiMapState createState() => _GuiMapState();
@@ -58,12 +62,18 @@ class _GuiMapState extends State<GuiMap> {
       });
     }
 
-    sendLoc() {
+    getLoc() {
       getLocation().then((response) {
         response.listen((value) {
           if (value.isSuccessful) {
-            double lat = value.location.latitude;
-            double lng = value.location.longitude;
+            setState(() async {
+              LocationResult currLoc = await Geolocation.lastKnownLocation();
+              //await Geolocation.currentLocation(accuracy: LocationAccuracy.best);
+              // String sdLat = "${currLoc.location.latitude}";
+              // String sdLong = "${currLoc.location.longitude}";
+              dLat = double.parse("${currLoc.location.latitude}");
+              dLong = double.parse("${currLoc.location.longitude}");
+            });
           }
         });
       });
@@ -89,14 +99,14 @@ class _GuiMapState extends State<GuiMap> {
             new Marker(
                 width: 45.0,
                 height: 45.0,
-                point: new LatLng(40.73, -74.00),
+                point: new LatLng(dLat, dLong),
                 builder: (context) => new Container(
                       child: IconButton(
                         icon: Icon(Icons.location_on),
                         color: Colors.red,
                         iconSize: 45.0,
                         onPressed: () {
-                          print(sendLoc());
+                          getLoc();
                         },
                       ),
                     ))
